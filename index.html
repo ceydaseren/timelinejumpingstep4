@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Step 4 — Define the New Reality | Timeline Jumpers</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600;1,9..144,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a1f;
+  --mid: #15122e;
+  --card-bg: rgba(30,26,62,0.6);
+  --border: rgba(255,255,255,0.08);
+  --cyan: #1cd6e7;
+  --magenta: #f62bd1;
+  --purple: #8051c8;
+  --amber: #f4a749;
+  --text: #f8f5ff;
+  --text-sec: rgba(248,245,255,0.72);
+  --text-muted: rgba(248,245,255,0.48);
+  --grad: linear-gradient(135deg,#1cd6e7,#8051c8,#f62bd1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Cosmic bg ── */
+.cosmic {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 65% 50% at 10% 15%, rgba(28,214,231,0.11) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 60% at 88% 80%, rgba(246,43,209,0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 45% at 50% 50%, rgba(128,81,200,0.07) 0%, transparent 65%);
+}
+
+/* ── Stars ── */
+.stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.star {
+  position: absolute; border-radius: 50%; background: #fff;
+  animation: twinkle var(--d,3s) ease-in-out infinite var(--del,0s);
+  opacity: var(--op,0.4);
+}
+@keyframes twinkle {
+  0%,100% { opacity: var(--op,0.4); transform: scale(1); }
+  50% { opacity: 0.06; transform: scale(0.5); }
+}
+
+/* ── Cursor trail ── */
+.cdot { position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999; animation: cfade 0.8s ease forwards; }
+@keyframes cfade { to { opacity: 0; transform: scale(0); } }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(16px);
+  background: rgba(28,214,231,0.13); border: 1px solid rgba(28,214,231,0.38);
+  backdrop-filter: blur(12px); border-radius: 99px;
+  padding: 10px 26px; font-size: 13px; font-weight: 600;
+  color: var(--cyan); letter-spacing: 0.04em;
+  opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none; z-index: 10000;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Wrapper ── */
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 720px; margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ── Intention ── */
+.intention {
+  background: var(--mid); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 36px;
+  margin: 40px 0 28px; text-align: center;
+}
+.eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--cyan); margin-bottom: 12px;
+}
+.intention-text {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(16px,3.5vw,20px);
+  font-weight: 600; color: #fff; line-height: 1.55;
+}
+.intention-sub {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(248,245,255,0.38);
+  margin-top: 14px;
+}
+
+/* ── Progress ── */
+.progress-wrap { margin-bottom: 32px; }
+.progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.progress-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); }
+.progress-count { font-size: 12px; color: rgba(248,245,255,0.6); }
+.progress-track { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; width: 33.33%; background: var(--grad); border-radius: 99px; }
+
+/* ── Step header ── */
+.step-header { margin-bottom: 24px; }
+.badge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.step-badge {
+  background: var(--cyan); color: #0a0a1f;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 99px;
+}
+.step-phase { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-sec); }
+.step-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px,6vw,40px);
+  font-weight: 700; line-height: 1.12; color: var(--text); margin-bottom: 8px;
+}
+.grad-word {
+  font-style: italic;
+  background: linear-gradient(135deg,#a8f4f9,#b893f2,#f78be8);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.step-subtitle { font-size: 15px; font-weight: 300; color: var(--text-sec); }
+
+/* ── Card ── */
+.card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 28px 32px; margin-bottom: 20px;
+  backdrop-filter: blur(20px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(28,214,231,0.15), 0 0 60px rgba(28,214,231,0.07);
+}
+
+/* ── Teaching eyebrow + copy — no card ── */
+.teaching-eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 16px; padding-left: 2px;
+}
+.teaching { margin-bottom: 28px; }
+.teaching p { font-size: 15px; line-height: 1.82; color: var(--text-sec); margin-bottom: 18px; }
+.teaching p:last-child { margin-bottom: 0; }
+
+/* ── Callout ── */
+.callout {
+  background: rgba(244,167,73,0.10); border: 1px solid rgba(244,167,73,0.32);
+  border-radius: 12px; padding: 22px 26px; margin-bottom: 20px;
+  box-shadow: 0 0 24px rgba(244,167,73,0.08);
+}
+.callout .eyebrow { color: var(--amber); }
+.callout p { font-size: 14px; line-height: 1.75; color: var(--text-sec); margin-bottom: 12px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout-phrase {
+  display: block; font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 600; color: var(--amber);
+  margin-top: 12px; line-height: 1.5;
+}
+
+/* ── Before You Write ── */
+.somatic {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 28px 32px 26px;
+  margin-bottom: 20px; backdrop-filter: blur(20px);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.somatic:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(28,214,231,0.15), 0 0 60px rgba(28,214,231,0.07);
+}
+.ring-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+.rings { position: relative; width: 52px; height: 52px; }
+.rings span { position: absolute; inset: 0; border-radius: 50%; animation: breathe 4s ease-in-out infinite; }
+.rings span:nth-child(1) { border: 1.5px solid var(--cyan); opacity: 0.55; animation-delay: 0s; }
+.rings span:nth-child(2) { inset: 9px; border: 1.5px solid var(--purple); opacity: 0.4; animation-delay: 0.6s; }
+.rings span:nth-child(3) { inset: 18px; border: 1.5px solid var(--magenta); opacity: 0.65; animation-delay: 1.2s; }
+@keyframes breathe {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.3); opacity: 0.1; }
+}
+.before-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--cyan); margin-bottom: 14px;
+}
+.somatic p {
+  font-size: 14px; line-height: 1.77; color: var(--text-sec);
+  max-width: 520px; margin: 0 auto;
+}
+
+/* ── Reflection: label + tabs outside, content card inside ── */
+.reflection-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 10px; padding-left: 2px;
+}
+.tab-row {
+  display: flex; gap: 0; margin-bottom: 0;
+  border-bottom: 1px solid var(--border);
+}
+.tab-btn {
+  background: transparent; border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px 22px 10px;
+  font-family: 'Inter', sans-serif; font-size: 11px;
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(248,245,255,0.35); cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-bottom: -1px;
+}
+.tab-btn:hover { color: rgba(248,245,255,0.6); }
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+/* content card — separate from tab row, cyan left border */
+.reflection-body {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 0 12px 12px;
+  backdrop-filter: blur(20px);
+  transition: box-shadow 0.3s ease;
+}
+.reflection-body:hover {
+  box-shadow: 0 0 30px rgba(28,214,231,0.15), 0 0 60px rgba(28,214,231,0.07);
+}
+.tab-pane { display: none; padding: 24px 28px 20px; }
+.tab-pane.active { display: block; }
+
+.prompt-text {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  line-height: 1.7; margin-bottom: 14px;
+}
+.starter {
+  font-size: 13px; font-weight: 600; color: var(--cyan);
+  letter-spacing: 0.01em; margin-bottom: 10px; display: block;
+}
+textarea {
+  width: 100%; min-height: 120px;
+  background: rgba(10,10,31,0.5); border: 1px solid var(--border);
+  border-top: 2px solid var(--cyan); border-radius: 8px;
+  padding: 14px 16px; font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 400; color: var(--text);
+  resize: vertical; outline: none;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+textarea::placeholder { color: rgba(248,245,255,0.28); }
+textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(28,214,231,0.13), inset 0 0 18px rgba(28,214,231,0.04);
+}
+.save-notice { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
+
+/* nav row — outside card, right-aligned */
+.nav-row {
+  display: flex; justify-content: flex-end;
+  align-items: center; margin-top: 16px; margin-bottom: 20px; gap: 12px;
+}
+.btn-fwd {
+  background: var(--grad); border: none; border-radius: 30px;
+  padding: 12px 24px; font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #fff; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-fwd:hover { opacity: 0.87; transform: translateY(-1px); }
+.btn-done {
+  background: var(--grad); border: none; border-radius: 30px;
+  padding: 12px 24px; font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #fff; cursor: pointer;
+  display: none; transition: opacity 0.2s, transform 0.2s;
+}
+.btn-done:hover { opacity: 0.87; transform: translateY(-1px); }
+.step-complete {
+  display: none; color: var(--cyan);
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  align-items: center; gap: 8px;
+}
+.step-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--cyan); display: inline-block; flex-shrink: 0;
+  animation: dot-pulse 2.2s ease-in-out infinite;
+}
+@keyframes dot-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(28,214,231,0.55); }
+  50% { box-shadow: 0 0 0 7px rgba(28,214,231,0); }
+}
+
+/* ── Export card ── */
+.export-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 32px;
+  backdrop-filter: blur(20px); margin-top: 8px;
+}
+.export-title {
+  font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 700;
+  color: var(--text); margin-bottom: 8px;
+}
+.export-sub {
+  font-size: 13px; color: var(--text-sec); line-height: 1.65; margin-bottom: 22px;
+}
+.btn-copy {
+  background: var(--grad); border: none; border-radius: 30px;
+  padding: 13px 28px; font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #fff; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-copy:hover { opacity: 0.87; transform: translateY(-1px); }
+.btn-copy svg { flex-shrink: 0; }
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border); margin-top: 48px; padding-top: 24px;
+  text-align: center; font-size: 12px; color: rgba(248,245,255,0.28); letter-spacing: 0.04em;
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .wrap { padding: 0 16px 60px; }
+  .card, .reflection-body, .somatic, .callout, .export-card { padding: 20px 18px; }
+  .intention { padding: 24px 20px; }
+  .step-title { font-size: 26px; }
+  .nav-row { padding: 14px 18px 18px; }
+  .btn-fwd, .btn-done { font-size: 11px; padding: 10px 18px; }
+  .step-complete { justify-content: flex-end; }
+}
+</style>
+</head>
+<body>
+
+<div class="cosmic"></div>
+<div class="stars" id="stars"></div>
+<div class="toast" id="toast"></div>
+
+<div class="wrap">
+
+  <!-- Intention -->
+  <div class="intention">
+    <div class="eyebrow">Selection Phase &middot; Step 4 of 7</div>
+    <div class="intention-text">I am ready to claim what my soul has been asking for and define the timeline I am stepping into now.</div>
+    <div class="intention-sub">Set this intention before you begin</div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span class="progress-label">Selection Phase</span>
+      <span class="progress-count">Step 4 of 7</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill"></div></div>
+  </div>
+
+  <!-- Step header -->
+  <div class="step-header">
+    <div class="badge-row">
+      <span class="step-badge">STEP 4</span>
+      <span class="step-phase">Selection Phase</span>
+    </div>
+    <h1 class="step-title">Define the <span class="grad-word">New</span> Reality</h1>
+    <p class="step-subtitle">Choosing what you actually want, with precision and intention</p>
+  </div>
+
+  <!-- Teaching copy — no card -->
+  <div class="teaching-eyebrow">The Teaching</div>
+  <div class="teaching">
+    <p>This is the step where you stop circling around what you want and actually name it. Your soul has been sending you signals. It has been showing you glimpses of a life that feels more true, more alive, more like you. Step 4 is where you give that life a clear shape so the universe knows exactly where to meet you.</p>
+    <p>You are going to answer the question: what do I want to be living? What has my soul been asking for? Start with the phrase, "The timeline I am choosing to enter and give my focus and energy to includes the following details" and let yourself write freely from there. This is not a vision board exercise. This is a declaration.</p>
+    <p>Happiness and freedom are beautiful intentions, but they can take a thousand different forms. Your definition of this new timeline needs to be specific enough that you would recognize it when you stepped into it. That specificity is not about control. It is about clarity. The more clearly you can see it, the more directly you can move toward it.</p>
+  </div>
+
+  <!-- Callout -->
+  <div class="callout">
+    <div class="eyebrow">Anchor Point</div>
+    <p>Every timeline needs one defining detail that anchors it. This is the thing that makes this version of your life distinctly different from the one you are currently living. It could be purpose-aligned work, a relationship, a location, or a complete identity shift.</p>
+    <p>Examples of anchor points include: moving into soul-aligned entrepreneurship, finding your life partner, relocating to a new country, or fully stepping into a new version of yourself. Pick the one that most represents the core of this timeline for you.</p>
+    <span class="callout-phrase">"The timeline I am choosing to enter and give my focus and energy to includes the following details..."</span>
+  </div>
+
+  <!-- Before You Write -->
+  <div class="somatic">
+    <div class="ring-wrap">
+      <div class="rings"><span></span><span></span><span></span></div>
+    </div>
+    <div class="before-label">Before You Write</div>
+    <p>Take three slow breaths. Allow yourself to open your mind and truly feel into what would light you up. What would make you excited to wake up every morning? What does your soul actually want? Let the answers rise without judgment, then move into the reflection below.</p>
+  </div>
+
+  <!-- Reflection -->
+  <div class="reflection-label">Your Reflection</div>
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="goTab(0)">New Reality</button>
+    <button class="tab-btn" onclick="goTab(1)">Anchor Point</button>
+  </div>
+  <div class="reflection-body">
+    <div class="tab-pane active" id="tp0">
+      <p class="prompt-text">Use the phrase below to begin. Write out everything your soul has been asking for. Go as broad or as specific as you need.</p>
+      <span class="starter">The timeline I am choosing to enter and give my focus and energy to includes the following details...</span>
+      <textarea id="r0" placeholder="Write freely. Let your soul speak here." oninput="save(0)"></textarea>
+      <p class="save-notice">This page does not save your responses. Save when done or transfer to your favourite journal.</p>
+    </div>
+    <div class="tab-pane" id="tp1">
+      <p class="prompt-text">Now select your anchor point. This is the one defining detail that makes this timeline distinctly different from the one you are in now. It could be your work, finances, health, a relationship, a location, a shift in identity, or something else.</p>
+      <span class="starter">The anchor point I am choosing for this timeline is...</span>
+      <textarea id="r1" placeholder="Name the one thing that most defines this new timeline." oninput="save(1)"></textarea>
+      <p class="save-notice">This page does not save your responses. Save when done or transfer to your favourite journal.</p>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-fwd" id="btnFwd" onclick="nextTab()"><span id="fwdLabel">ANCHOR POINT</span> &rarr;</button>
+    <button class="btn-done" id="btnDone" onclick="markDone()">DONE</button>
+    <span class="step-complete" id="stepComplete">✓ Step Complete</span>
+  </div>
+
+  <!-- Export -->
+  <div class="export-card" style="margin-top: 24px;">
+    <div class="export-title">Save Your Work</div>
+    <p class="export-sub">Your responses are not saved automatically. Click below to copy them, then paste into your notes app on your phone or computer.</p>
+    <button class="btn-copy" onclick="copyAll()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Copy My Responses
+    </button>
+  </div>
+
+  <footer>&copy; 2026 Ceyda Seren. All rights reserved.</footer>
+
+</div>
+
+<script>
+// Stars
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2.4 + 0.5;
+  s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--del:-${(Math.random()*6).toFixed(1)}s;--op:${(Math.random()*0.45+0.15).toFixed(2)}`;
+  starsEl.appendChild(s);
+}
+
+// Cursor trail
+const tc = ['#1cd6e7','#8051c8','#f62bd1'];
+let tcount = 0;
+document.addEventListener('mousemove', e => {
+  tcount++;
+  const d = document.createElement('div');
+  d.className = 'cdot';
+  const sz = Math.random() * 7 + 3;
+  const col = tc[Math.floor(Math.random()*3)];
+  if (tcount % 12 === 0) {
+    d.style.cssText = `left:${e.clientX-8}px;top:${e.clientY-8}px;color:${col};font-size:13px;width:auto;height:auto;border-radius:0;background:transparent;`;
+    d.textContent = '✦';
+  } else {
+    d.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-sz/2}px;top:${e.clientY-sz/2}px;background:${col};opacity:0.65;box-shadow:0 0 ${sz*2}px ${col};`;
+  }
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(), 800);
+});
+
+// Tabs
+let cur = 0;
+const total = 2;
+
+function goTab(i) {
+  document.querySelectorAll('.tab-pane').forEach((p,idx)=>p.classList.toggle('active',idx===i));
+  document.querySelectorAll('.tab-btn').forEach((b,idx)=>b.classList.toggle('active',idx===i));
+  cur = i;
+  syncNav();
+  const sv = sessionStorage.getItem('tj4_r'+i);
+  if (sv !== null) document.getElementById('r'+i).value = sv;
+}
+
+const tabLabels = ['ANCHOR POINT', null];
+
+function syncNav() {
+  const last = cur === total-1;
+  const fwd = document.getElementById('btnFwd');
+  const done = document.getElementById('btnDone');
+  fwd.style.display = last ? 'none' : 'flex';
+  done.style.display = last ? 'flex' : 'none';
+  if (!last) document.getElementById('fwdLabel').textContent = tabLabels[cur];
+}
+
+function nextTab() { if (cur < total-1) goTab(cur+1); }
+function prevTab() { if (cur > 0) goTab(cur-1); }
+
+function save(i) { sessionStorage.setItem('tj4_r'+i, document.getElementById('r'+i).value); }
+
+function markDone() {
+  document.getElementById('btnDone').style.display = 'none';
+  const sc = document.getElementById('stepComplete');
+  sc.style.display = 'flex';
+}
+
+function copyAll() {
+  const labels = ['NEW REALITY','ANCHOR POINT'];
+  const starters = [
+    'The timeline I am choosing to enter and give my focus and energy to includes the following details...',
+    'The anchor point I am choosing for this timeline is...'
+  ];
+  let text = 'TJ STEP 4 — Define the New Reality\n\n';
+  for (let i = 0; i < 2; i++) {
+    const el = document.getElementById('r'+i);
+    const val = (el && el.value.trim()) || sessionStorage.getItem('tj4_r'+i) || '(no response)';
+    text += `${labels[i]}\n${starters[i]}\n${val}\n\n`;
+  }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;left:-9999px;opacity:0;';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('Responses copied to clipboard');
+  } catch(e) { showToast('Copy failed. Please copy manually.'); }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+sessionStorage.clear();
+syncNav();
+</script>
+</body>
+</html>
