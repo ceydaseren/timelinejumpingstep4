@@ -60,6 +60,12 @@ body {
 .cdot { position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999; animation: cfade 0.8s ease forwards; }
 @keyframes cfade { to { opacity: 0; transform: scale(0); } }
 
+/* ── Tap ripple (mobile) ── */
+@keyframes tapRipple {
+  0%   { transform: scale(0); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
 /* ── Toast ── */
 .toast {
   position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(16px);
@@ -279,25 +285,21 @@ textarea:focus {
   padding: 12px 24px; font-family: 'Inter', sans-serif;
   font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
   text-transform: uppercase; color: #fff; cursor: pointer;
-  display: none; transition: opacity 0.2s, transform 0.2s;
+  display: none; align-items: center; gap: 8px;
+  transition: opacity 0.2s, transform 0.2s;
 }
 .btn-done:hover { opacity: 0.87; transform: translateY(-1px); }
+.copy-feedback {
+  font-size: 12px; font-weight: 600; color: var(--cyan);
+  letter-spacing: 0.04em; display: none; margin-top: 8px; text-align: right;
+}
 .step-complete {
   display: none; color: var(--cyan);
   font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
   align-items: center; gap: 8px;
 }
-.step-dot {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: var(--cyan); display: inline-block; flex-shrink: 0;
-  animation: dot-pulse 2.2s ease-in-out infinite;
-}
-@keyframes dot-pulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(28,214,231,0.55); }
-  50% { box-shadow: 0 0 0 7px rgba(28,214,231,0); }
-}
 
-/* ── Export card ── */
+/* ── Export card — text only, no button ── */
 .export-card {
   background: var(--card-bg); border: 1px solid var(--border);
   border-radius: 16px; padding: 28px 32px;
@@ -308,18 +310,20 @@ textarea:focus {
   color: var(--text); margin-bottom: 8px;
 }
 .export-sub {
-  font-size: 13px; color: var(--text-sec); line-height: 1.65; margin-bottom: 22px;
+  font-size: 13px; color: var(--text-sec); line-height: 1.65;
 }
-.btn-copy {
+
+/* ── Skool button — full width ── */
+.btn-skool {
+  display: block; width: 100%;
   background: var(--grad); border: none; border-radius: 30px;
-  padding: 13px 28px; font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; color: #fff; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 8px;
-  transition: opacity 0.2s, transform 0.2s;
+  padding: 16px 24px; margin-top: 24px;
+  font-family: 'Inter', sans-serif; font-size: 13px;
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; text-align: center; text-decoration: none;
+  cursor: pointer; transition: opacity 0.2s, transform 0.2s;
 }
-.btn-copy:hover { opacity: 0.87; transform: translateY(-1px); }
-.btn-copy svg { flex-shrink: 0; }
+.btn-skool:hover { opacity: 0.87; transform: translateY(-1px); }
 
 /* ── Footer ── */
 footer {
@@ -335,6 +339,7 @@ footer {
   .step-title { font-size: 26px; }
   .nav-row { padding: 14px 18px 18px; }
   .btn-fwd, .btn-done { font-size: 11px; padding: 10px 18px; }
+  .btn-skool { font-size: 12px; padding: 14px; }
   .step-complete { justify-content: flex-end; }
 }
 </style>
@@ -420,19 +425,20 @@ footer {
   </div>
   <div class="nav-row">
     <button class="btn-fwd" id="btnFwd" onclick="nextTab()"><span id="fwdLabel">ANCHOR POINT</span> &rarr;</button>
-    <button class="btn-done" id="btnDone" onclick="markDone()">DONE</button>
+    <button class="btn-done" id="btnDone" onclick="copyAll()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Copy My Responses
+    </button>
     <span class="step-complete" id="stepComplete">✓ Step Complete</span>
   </div>
 
-  <!-- Export -->
-  <div class="export-card" style="margin-top: 24px;">
+  <!-- Export — text only, no button -->
+  <div class="export-card" style="margin-top: 44px;">
     <div class="export-title">Save Your Work</div>
-    <p class="export-sub">Your responses are not saved automatically. Click below to copy them, then paste into your notes app on your phone or computer.</p>
-    <button class="btn-copy" onclick="copyAll()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Copy My Responses
-    </button>
+    <p class="export-sub">Your responses are not saved automatically. Use the Copy My Responses button above to copy them, then paste into your notes app on your phone or computer.</p>
   </div>
+
+  <a class="btn-skool" href="https://www.skool.com/timeline-jumpers-9976/classroom" target="_blank">Take Me Back to Skool</a>
 
   <footer>&copy; 2026 Ceyda Seren. All rights reserved.</footer>
 
@@ -452,21 +458,46 @@ for (let i = 0; i < 120; i++) {
 // Cursor trail
 const tc = ['#1cd6e7','#8051c8','#f62bd1'];
 let tcount = 0;
-document.addEventListener('mousemove', e => {
-  tcount++;
-  const d = document.createElement('div');
-  d.className = 'cdot';
-  const sz = Math.random() * 7 + 3;
-  const col = tc[Math.floor(Math.random()*3)];
-  if (tcount % 12 === 0) {
-    d.style.cssText = `left:${e.clientX-8}px;top:${e.clientY-8}px;color:${col};font-size:13px;width:auto;height:auto;border-radius:0;background:transparent;`;
-    d.textContent = '✦';
-  } else {
-    d.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-sz/2}px;top:${e.clientY-sz/2}px;background:${col};opacity:0.65;box-shadow:0 0 ${sz*2}px ${col};`;
-  }
-  document.body.appendChild(d);
-  setTimeout(()=>d.remove(), 800);
-});
+// Cursor trail — desktop only
+if (!('ontouchstart' in window)) {
+  document.addEventListener('mousemove', e => {
+    tcount++;
+    const d = document.createElement('div');
+    d.className = 'cdot';
+    const sz = Math.random() * 7 + 3;
+    const col = tc[Math.floor(Math.random()*3)];
+    if (tcount % 12 === 0) {
+      d.style.cssText = `left:${e.clientX-8}px;top:${e.clientY-8}px;color:${col};font-size:13px;width:auto;height:auto;border-radius:0;background:transparent;`;
+      d.textContent = '✦';
+    } else {
+      d.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-sz/2}px;top:${e.clientY-sz/2}px;background:${col};opacity:0.65;box-shadow:0 0 ${sz*2}px ${col};`;
+    }
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(), 800);
+  });
+}
+
+// Tap ripple — mobile only
+if ('ontouchstart' in window) {
+  document.addEventListener('touchstart', e => {
+    const touch = e.touches[0];
+    const ripple = document.createElement('div');
+    ripple.style.cssText = `
+      position:fixed;
+      left:${touch.clientX - 30}px;
+      top:${touch.clientY - 30}px;
+      width:60px; height:60px;
+      border-radius:50%;
+      background: radial-gradient(circle, rgba(28,214,231,0.45) 0%, rgba(28,214,231,0) 70%);
+      pointer-events:none;
+      z-index:9999;
+      transform:scale(0);
+      animation:tapRipple 0.5s ease-out forwards;
+    `;
+    document.body.appendChild(ripple);
+    setTimeout(()=>ripple.remove(), 500);
+  }, { passive: true });
+}
 
 // Tabs
 let cur = 0;
@@ -488,7 +519,7 @@ function syncNav() {
   const fwd = document.getElementById('btnFwd');
   const done = document.getElementById('btnDone');
   fwd.style.display = last ? 'none' : 'flex';
-  done.style.display = last ? 'flex' : 'none';
+  done.style.display = last ? 'inline-flex' : 'none';
   if (!last) document.getElementById('fwdLabel').textContent = tabLabels[cur];
 }
 
@@ -496,12 +527,6 @@ function nextTab() { if (cur < total-1) goTab(cur+1); }
 function prevTab() { if (cur > 0) goTab(cur-1); }
 
 function save(i) { sessionStorage.setItem('tj4_r'+i, document.getElementById('r'+i).value); }
-
-function markDone() {
-  document.getElementById('btnDone').style.display = 'none';
-  const sc = document.getElementById('stepComplete');
-  sc.style.display = 'flex';
-}
 
 function copyAll() {
   const labels = ['NEW REALITY','ANCHOR POINT'];
@@ -521,6 +546,9 @@ function copyAll() {
     document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
     showToast('Responses copied to clipboard');
+    const sc = document.getElementById('stepComplete');
+    sc.style.display = 'flex';
+    document.getElementById('btnDone').style.display = 'none';
   } catch(e) { showToast('Copy failed. Please copy manually.'); }
 }
 
