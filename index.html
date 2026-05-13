@@ -382,6 +382,11 @@
       
     </div>
 
+    <!-- LIFE BEYOND TEACHING -->
+    <div class="section-block teaching-copy">
+      <p>Once you have named your anchor point, there is one more layer of definition that locks this timeline in even deeper. Neville Goddard taught that the most powerful way to claim a reality is not to jump to the future and instead of imagining the moment it arrives, imagine from a point further along, after it has already happened and the new normal has settled in. This is what we call the life beyond the anchor point. When you envision yourself 3 to 6 months past the moment your anchor point came to fruition, your subconscious stops treating it as a future possibility that must be achieved and starts encoding it as a lived truth since you are treating the experience like a memory.</p>
+    </div>
+
     <!-- SOMATIC BLOCK -->
     <div class="section-block somatic-block">
       <div class="breathing-ring">
@@ -398,6 +403,7 @@
       <div class="layer-nav">
         <button class="layer-tab active" data-layer="reality"  onclick="switchLayer('reality')">New Reality</button>
         <button class="layer-tab"        data-layer="anchor"   onclick="switchLayer('anchor')">Anchor Point</button>
+        <button class="layer-tab"        data-layer="beyond"   onclick="switchLayer('beyond')">Life Beyond</button>
       </div>
 
       <!-- NEW REALITY -->
@@ -422,6 +428,19 @@
         </div>
         <div class="layer-controls">
           <button class="btn-ghost" onclick="switchLayer('reality')">← New Reality</button>
+          <button class="btn-primary" onclick="switchLayer('beyond')">Life Beyond →</button>
+        </div>
+      </div>
+
+      <!-- LIFE BEYOND -->
+      <div class="reflection-layer" id="layer-beyond">
+        <div class="reflection-card">
+          <p class="reflection-prompt">It is now 3 to 6 months after your anchor point has come to fruition. The shift has happened. The new timeline is your normal. In just a few sentences, describe what your life looks and feels like from this place.</p>
+          <span class="starter-phrase">Three to six months after my anchor point has landed, my life looks like...</span>
+          <textarea id="ta-beyond" placeholder="Write from inside this future. What do you see, feel, and know to be true?" oninput="autosave('beyond')"></textarea>
+        </div>
+        <div class="layer-controls">
+          <button class="btn-ghost" onclick="switchLayer('anchor')">← Anchor Point</button>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
             <button class="btn-copy-responses" onclick="copyResponses()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -502,7 +521,7 @@
   function autosave(key) {
     sessionStorage.setItem('tj_step4_' + key, document.getElementById('ta-' + key)?.value || '');
   }
-  ['reality','anchor'].forEach(k => {
+  ['reality','anchor','beyond'].forEach(k => {
     const saved = sessionStorage.getItem('tj_step4_' + k);
     const el = document.getElementById('ta-' + k);
     if (saved && el) el.value = saved;
@@ -522,6 +541,7 @@
   function copyResponses() {
     const reality = document.getElementById('ta-reality')?.value.trim() || '';
     const anchor  = document.getElementById('ta-anchor')?.value.trim() || '';
+    const beyond  = document.getElementById('ta-beyond')?.value.trim() || '';
 
     const compiled = [
       'TIMELINE JUMPERS — Step 4: Define the New Reality',
@@ -529,7 +549,9 @@
       'NEW REALITY', 'The timeline I am choosing to enter and give my focus and energy to includes the following details...',
       reality || '(not yet written)', '',
       'ANCHOR POINT', 'The anchor point I am choosing for this timeline is...',
-      anchor  || '(not yet written)',
+      anchor  || '(not yet written)', '',
+      'LIFE BEYOND', 'Three to six months after my anchor point has landed, my life looks like...',
+      beyond  || '(not yet written)',
     ].join('\n');
 
     const confirm = document.getElementById('copy-confirm');
